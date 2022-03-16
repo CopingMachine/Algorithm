@@ -1,0 +1,336 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\ul\b\f0\fs24\lang9 PRAC 1- Strassen Algorithm\ulnone\b0\fs22\par
+x=[[41,42],[43,44]]\par
+y=[[45,6],[47,48]]\par
+z=[[0,0],[0,0]]\par
+p1=x[0][0]*(y[0][1]-y[1][1])\par
+p2=y[1][1]*(x[0][0]+x[0][1])\par
+p3=y[0][0]*(x[1][0]+x[1][1])\par
+p4=x[1][1]*(y[1][0]-y[0][0])\par
+p5=(x[0][0]+x[1][1])*(y[0][0]+y[1][1])\par
+p6=(x[0][1]-x[1][1])*(y[1][0]+y[1][1])\par
+p7=(x[0][0]-x[1][0])*(y[0][0]+y[0][1])\par
+z[0][0]=p6+p5+p4-p2\par
+z[0][1]=p1+p2\par
+z[1][0]=p3+p4\par
+z[1][1]=p1+p5-p3-p7\par
+print(x)\par
+print(y)\par
+print(z)\par
+\par
+\ul\b\fs24 Prac 2: Divide and conquer \par
+\ulnone\b0\fs22 def sort(arr,l,m,r):\par
+    n1=m-l+1\par
+    n2=r-m\par
+    L=[0]*(n1)\par
+    R=[0]*(n2)\par
+    for i in range(0,n1):\par
+        L[i]=arr[l+i]\par
+    for j in range(0,n2):\par
+            R[j]=arr[m+1+j]\par
+    i=0\par
+    j=0\par
+    k=l\par
+    while i<n1 and j<n2:\par
+        if L[i]<=R[j]:\par
+            arr[k]=L[i]\par
+            i+=l\par
+        else:\par
+            arr[k]=R[j]\par
+            j+=1\par
+            k+=1\par
+        while i<n1:\par
+            arr[k]=L[i]\par
+            i+=1\par
+            k+=1\par
+        while j<n2:\par
+            arr[k]=R[j]\par
+            j+=1\par
+            k+=1\par
+def mergesort(arr,l,r):\par
+    if l<r:\par
+        m=int((l+(r-1))/2)\par
+        mergesort(arr,l,m)\par
+        mergesort(arr,m+1,r)\par
+        sort(arr,l,m,r)\par
+arr=[12,23,34,56,78,45,86,98,42]\par
+print(arr)\par
+n=len(arr)\par
+mergesort(arr,0,n-1)\par
+print(arr)\par
+\par
+\ul\b\fs24 Prac 3:Quick Sort\par
+\ulnone\b0\fs22 def quickSort(alist):\par
+    quickSortHelper(alist,0,len(alist)-1)\par
+def quickSortHelper(alist,first,last):\par
+    if first<last:\par
+        splitpoint=partition(alist,first,last)\par
+        quickSortHelper(alist,first,splitpoint-1)\par
+        quickSortHelper(alist,splitpoint+1,last)\par
+def partition(alist,first,last):\par
+    pivotvalue=alist[first]\par
+    leftmark=first+1\par
+    rightmark=last\par
+    done=False\par
+    while not done:\par
+        while leftmark<=rightmark and alist[leftmark]<=pivotvalue:\par
+            leftmark=leftmark+1\par
+        while alist[rightmark]>=pivotvalue and rightmark>=leftmark:\par
+            rightmark=rightmark-1\par
+        if rightmark<leftmark:\par
+            done=True\par
+        else:\par
+            temp=alist[leftmark]\par
+            alist[leftmark]=alist[rightmark]\par
+            alist[rightmark]=temp\par
+        temp=alist[first]\par
+        alist[first]=alist[rightmark]\par
+        alist[rightmark]=temp\par
+        return rightmark\par
+alist=[42,54,45,67,89,66,55,80,100]\par
+quickSort(alist)\par
+print(alist)\par
+\par
+\ul\b\fs24 Prac 4:DFs\ulnone\b0\fs22\par
+graph = \{\par
+  '5' : ['3','7'],\par
+  '3' : ['2', '4'],\par
+  '7' : ['8'],\par
+  '2' : [],\par
+  '4' : ['8'],\par
+  '8' : []\par
+\}\par
+\par
+visited = set()\par
+\par
+def dfs(visited, graph, node):  #function for dfs \par
+    if node not in visited:\par
+        print (node)\par
+        visited.add(node)\par
+        for neighbour in graph[node]:\par
+            dfs(visited, graph, neighbour)\par
+\par
+print("Following is the Depth-First Search")\par
+dfs(visited, graph, '5')\par
+\par
+\ul\b\fs24 Prac 5:BFs\ulnone\b0\fs22\par
+graph = \{\par
+  '5' : ['3','7'],\par
+  '3' : ['2', '4'],\par
+  '7' : ['8'],\par
+  '2' : ['8'],\par
+  '4' : ['8'],\par
+  '8' : []\par
+\}\par
+\par
+visited = [] \par
+queue = []     \par
+\par
+def bfs(visited, graph, node): \par
+  visited.append(node)\par
+  queue.append(node)\par
+\par
+  while queue:          \par
+    m = queue.pop(0) \par
+    print (m) \par
+\par
+    for neighbour in graph[m]:\par
+      if neighbour not in visited:\par
+        visited.append(neighbour)\par
+        queue.append(neighbour)\par
+\par
+\par
+print("Following is the Breadth-First Search")\par
+bfs(visited, graph, '2')\par
+\par
+\ul\b\fs24 Prac 6:Prims Algorithm\par
+\ulnone\b0\fs22 INF = 9999999\par
+V = 5\par
+G = [[0, 9, 75, 0, 0],\par
+     [9, 0, 95, 19, 42],\par
+     [75, 95, 0, 51, 66],\par
+     [0, 19, 51, 0, 31],\par
+     [0, 42, 66, 31, 0]]\par
+selected = [0, 0, 0, 0, 0]\par
+no_edge = 0\par
+selected[0] = True\par
+print("Edge : Weight\\n")\par
+while (no_edge < V - 1):\par
+    minimum = INF\par
+    x = 0\par
+    y = 0\par
+    for i in range(V):\par
+        if selected[i]:\par
+            for j in range(V):\par
+                if ((not selected[j]) and G[i][j]):  \par
+                    if minimum > G[i][j]:\par
+                        minimum = G[i][j]\par
+                        x = i\par
+                        y = j\par
+    print(str(x) + "-" + str(y) + ":" + str(G[x][y]))\par
+    selected[y] = True\par
+    no_edge += 1\par
+\par
+\ul\b\fs24 Prac 7:Krushal's Algorithm\par
+\ulnone\b0\fs22 class Graph:\par
+    def __init__(self, vertices):\par
+        self.V = vertices\par
+        self.graph = []\par
+\par
+    def add_edge(self, u, v, w):\par
+        self.graph.append([u, v, w])\par
+\par
+    # Search function\par
+\par
+    def find(self, parent, i):\par
+        if parent[i] == i:\par
+            return i\par
+        return self.find(parent, parent[i])\par
+\par
+    def apply_union(self, parent, rank, x, y):\par
+        xroot = self.find(parent, x)\par
+        yroot = self.find(parent, y)\par
+        if rank[xroot] < rank[yroot]:\par
+            parent[xroot] = yroot\par
+        elif rank[xroot] > rank[yroot]:\par
+            parent[yroot] = xroot\par
+        else:\par
+            parent[yroot] = xroot\par
+            rank[xroot] += 1\par
+\par
+    #  Applying Kruskal algorithm\par
+    def kruskal_algo(self):\par
+        result = []\par
+        i, e = 0, 0\par
+        self.graph = sorted(self.graph, key=lambda item: item[2])\par
+        parent = []\par
+        rank = []\par
+        for node in range(self.V):\par
+            parent.append(node)\par
+            rank.append(0)\par
+        while e < self.V - 1:\par
+            u, v, w = self.graph[i]\par
+            i = i + 1\par
+            x = self.find(parent, u)\par
+            y = self.find(parent, v)\par
+            if x != y:\par
+                e = e + 1\par
+                result.append([u, v, w])\par
+                self.apply_union(parent, rank, x, y)\par
+        for u, v, weight in result:\par
+            print("%d - %d: %d" % (u, v, weight))\par
+\par
+\par
+g = Graph(6)\par
+g.add_edge(0, 1, 4)\par
+g.add_edge(0, 2, 4)\par
+g.add_edge(1, 2, 2)\par
+g.add_edge(1, 0, 4)\par
+g.add_edge(2, 0, 4)\par
+g.add_edge(2, 1, 2)\par
+g.add_edge(2, 3, 3)\par
+g.add_edge(2, 5, 2)\par
+g.add_edge(2, 4, 4)\par
+g.add_edge(3, 2, 3)\par
+g.add_edge(3, 4, 3)\par
+g.add_edge(4, 2, 4)\par
+g.add_edge(4, 3, 3)\par
+g.add_edge(5, 2, 2)\par
+g.add_edge(5, 4, 3)\par
+g.kruskal_algo()\par
+\par
+\ul\b\fs24 Prac 8:Backtracking Algorithm, Nqueen\ulnone\b0\fs22\par
+global N\par
+N = 4\par
+def printSolution(board):\par
+\tab for i in range(N):\par
+\tab\tab for j in range(N):\par
+\tab\tab\tab print (board[i][j],end=" ")\par
+\tab\tab print()\par
+def isSafe(board, row, col):\par
+\tab for i in range(col):\par
+\tab\tab if board[row][i] == 1:\par
+\tab\tab\tab return False\par
+\tab for i, j in zip(range(row, -1, -1), range(col, -1, -1)):\par
+\tab\tab if board[i][j] == 1:\par
+\tab\tab\tab return False\par
+\tab for i, j in zip(range(row, N, 1), range(col, -1, -1)):\par
+\tab\tab if board[i][j] == 1:\par
+\tab\tab\tab return False\par
+\par
+\tab return True\par
+\par
+def solveNQUtil(board, col):\par
+\tab if col >= N:\par
+\tab\tab return True\par
+\tab for i in range(N):\par
+\par
+\tab\tab if isSafe(board, i, col):\par
+\tab\tab\tab board[i][col] = 1\par
+\par
+\tab\tab\tab if solveNQUtil(board, col + 1) == True:\par
+\tab\tab\tab\tab return True\par
+\tab\tab\tab board[i][col] = 0\par
+\tab return False\par
+\par
+def solveNQ():\par
+\tab board = [ [0, 0, 0, 0],\par
+\tab\tab\tab [0, 0, 0, 0],\par
+\tab\tab\tab [0, 0, 0, 0],\par
+\tab\tab\tab [0, 0, 0, 0]\par
+\tab\tab\tab ]\par
+\par
+\tab if solveNQUtil(board, 0) == False:\par
+\tab\tab print ("Solution does not exist")\par
+\tab\tab return False\par
+\par
+\tab printSolution(board)\par
+\tab return True\par
+solveNQ()\par
+\par
+\ul\b\fs24 Prac 9:Greedy Algorithm\ulnone\b0\fs22\par
+def printJobScheduling(arr, t):\par
+\tab n = len(arr)\par
+\tab for i in range(n):\par
+\tab\tab for j in range(n - 1 - i):\par
+\tab\tab\tab if arr[j][2] < arr[j + 1][2]:\par
+\tab\tab\tab\tab arr[j], arr[j + 1] = arr[j + 1], arr[j]\par
+\tab result = [False] * t\par
+\tab job = ['-1'] * t\par
+\tab for i in range(len(arr)):\par
+\tab\tab for j in range(min(t - 1, arr[i][1] - 1), -1, -1):\par
+\tab\tab\tab if result[j] is False:\par
+\tab\tab\tab\tab result[j] = True\par
+\tab\tab\tab\tab job[j] = arr[i][0]\par
+\tab\tab\tab\tab break\par
+\par
+\tab print(job)\par
+arr = [['a', 2, 100], \par
+\tab ['b', 1, 19],\par
+\tab ['c', 2, 27],\par
+\tab ['d', 1, 25],\par
+\tab ['e', 3, 15]]\par
+print("Following is maximum profit sequence of jobs")\par
+printJobScheduling(arr, 3)\par
+\par
+\ul\b\fs24 Prac 10:Knapsack Problem\ulnone\b0\fs22\par
+def knapSack(W, wt, val, n) :\par
+\par
+    if n == 0 or W == 0:\par
+        return 0\par
+    if (wt[n-1] > W):\par
+        return knapSack(W, wt, val, n-1)\par
+    else:\par
+        return max(\par
+            val[n-1] + knapSack(\par
+                W-wt[n-1], wt, val, n-1),\par
+            knapSack(W, wt, val, n-1))\par
+\par
+val = [60, 100, 120]\par
+wt = [10, 20, 30]\par
+W = 50\par
+n = len(val)\par
+print(knapSack(W, wt, val, n))\par
+}
+ 
